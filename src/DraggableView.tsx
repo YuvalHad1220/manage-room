@@ -32,12 +32,12 @@ const DraggableView = () => {
     const DraggableMain = ({fieldId} : {fieldId: string}) => {
         const droppable = createDroppable(fieldId);
         return (
-        <div use:droppable class="join join-vertical w-full h-full flex flex-col p-3">
-          <p class="join-item font-bold text-white bg-success p-3">{fieldId}</p>
-          <div class="join-item bg-gray-600 grow">
+        <div use:droppable class="join join-vertical rounded-2xl w-full h-full flex flex-col p-1">
+          <p class="join-item font-bold text-white bg-base-300 p-3">{fieldId}</p>
+          <div class="join-item bg-base-300 grow">
             <div class="flex gap-5 m-3">
             {availableOptions()[fieldId].map(name => (
-              <button class="btn bg-white p-3 text-black" onClick={() => removeName(fieldId, name)}>
+              <button class="btn btn-outline btn-primary" onClick={() => removeName(fieldId, name)}>
                 {name}
               </button>
             ))}
@@ -49,11 +49,14 @@ const DraggableView = () => {
 
 
       const DraggableBottom = () => (
-        <div class="flex gap-5 bg-gray-700 p-2 rounded-2xl justify-center">
-        {totalPeople().map(name => {
-        const draggable = createDraggable(name);
-          return <div use:draggable class="rounded-2xl bg-white p-2 text-black">{name}</div>
-        })}
+        <div class="flex gap-5 bg-base-300 p-2 rounded-2xl justify-center">
+        {totalPeople().length ? 
+            totalPeople().map(name => {
+            const draggable = createDraggable(name);
+            return <div use:draggable class="btn btn-outline btn-primary">{name}</div>
+            })
+        : 
+        <p class="font-bold text-white">לא נשארו שמות! בשביל להחזיר שמות לרשימה אנא לחץ על כפתורי השמות</p>}
         </div>
     );
 
