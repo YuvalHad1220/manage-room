@@ -1,6 +1,5 @@
-import { DragDropProvider, DragDropSensors } from "@thisbeyond/solid-dnd";
 import { createSignal, type Component } from "solid-js";
-import Sandbox from "./DraggablePlaces";
+import DraggableView from "./DraggableView";
 
 const App: Component = () => {
   type display = "MAIN" | "MODIFY_PEOPLE" | "MODIFY_PLACES";
@@ -9,7 +8,7 @@ const App: Component = () => {
   const placesList = ["מטבח", "שירותים", "אנא עארף"];
 
   const AddPeople = (
-    <>
+    <div class="grow bg-gray-700 rounded-2xl flex flex-col gap-4 p-4 items-center">
       <div class="flex flex-col items-center gap-4 mt-12 text-center text-lg">
         <p class="font-bold">פיץ תוסיף רשימה של אנשים כשכל שם הוא שורה</p>
         <p>אל תשכח שאתה יכול לעשות גם העתק הדבק מהווצאפ</p>
@@ -38,12 +37,12 @@ const App: Component = () => {
           </tbody>
         </table>
       </div>
-    </>
+    </div>
   );
 
 
   const AddPlaces = (
-    <>
+    <div class="grow bg-gray-700 rounded-2xl flex flex-col gap-4 p-4 items-center">
       <div class="flex flex-col items-center gap-4 mt-12 text-center text-lg">
         <p class="font-bold">פיץ תוסיף רשימה של מקומות כשכל מקום הוא שורה</p>
         <p>אל תשכח שאתה יכול לעשות גם העתק הדבק מהווצאפ</p>
@@ -72,40 +71,15 @@ const App: Component = () => {
           </tbody>
         </table>
       </div>
-    </>
-  );
-  const DraggableMain = (
-    <>
-        <div class="join join-vertical w-full h-full flex flex-col p-3">
-      <p class="join-item font-bold text-white bg-success p-3">שירותים</p>
-      <div class="join-item bg-gray-600 grow">
-        <div class="flex gap-5 m-3">
-        {peopleList.map(name => (
-          <div class="rounded-2xl bg-white p-3 text-black">
-            {name}
-          </div>
-        ))}
-        </div>
-      </div>
     </div>
-
-    <div class="flex gap-5 bg-error">
-        {peopleList.map(name => (
-          <div class="rounded-2xl bg-white p-3 text-black">
-            {name}
-          </div>
-        ))}
-        </div>
-    </>
   );
+
 
   return (
     <div class="h-screen flex flex-col gap-3 p-3">
-      <div class="grow bg-gray-700 rounded-2xl flex flex-col gap-4 items-center">
-        {currentDisplayed() === "MAIN" && DraggableMain}
+        {currentDisplayed() === "MAIN" && <DraggableView />}
         {currentDisplayed() === "MODIFY_PEOPLE" && AddPeople}
         {currentDisplayed() === "MODIFY_PLACES" && AddPlaces}
-      </div>
       <div class="flex gap-3 p-3 rounded-2xl bg-gray-700">
             <button classList={{grow: true, btn: true, "btn-primary": currentDisplayed() === "MAIN" }} onClick={() => setCurrentDisplayed("MAIN")}>מסך ראשי</button>
             <button classList={{grow: true, btn: true, "btn-primary": currentDisplayed() === "MODIFY_PLACES" }} onClick={() => setCurrentDisplayed("MODIFY_PLACES")}>עריכת מקומות</button>
