@@ -63,16 +63,20 @@ const DraggableView = () => {
 
       const DraggableBottom = () => (
         <div class="flex gap-5 bg-base-300 p-2 rounded-2xl justify-center">
-        {totalPeople().length ? 
-            totalPeople().map(name => {
-            const draggable = createDraggable(name);
-            return <div use:draggable class="btn btn-outline btn-primary">{name}</div>
-            })
-        : 
-        <p class="font-bold text-white">לא נשארו שמות! בשביל להחזיר שמות לרשימה אנא לחץ על כפתורי השמות</p>}
+        {
+        totalPeople().map(name => {
+        const draggable = createDraggable(name);
+        return <div use:draggable class="btn btn-outline btn-primary">{name}</div>
+          })}
+        
+        <button class="btn btn-primary" onClick={() => copyToClipboard()}>העתקה ללוח</button>
         </div>
     );
 
+    const copyToClipboard = () => {
+      const text = Object.keys(availableOptions()).map(item => `*${item}*: ${availableOptions()[item].join(", ")}`).join("\n")
+      navigator.clipboard.writeText(text);
+    };
 
     const onDragEnd = ({draggable, droppable}: {draggable: any, droppable: any}) => {
         if (draggable && droppable){
