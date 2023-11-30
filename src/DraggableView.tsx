@@ -45,7 +45,7 @@ const DraggableView = () => {
         const droppable = createDroppable(fieldId);
         const totalCount = peopleOnTheBeginning;
         return (
-        <div use:droppable class="join join-vertical rounded-2xl w-full h-full flex flex-col p-1">
+        <div use:droppable class="join join-vertical rounded-2xl flex flex-col p-1">
           <p class="join-item font-bold text-white text-xl bg-base-300 p-3">{fieldId} <span class="text-secondary">{(availableOptions()[fieldId].length/totalCount * 100).toFixed(1)}% -- {availableOptions()[fieldId].length}/{totalCount}</span></p>
           <div class="join-item bg-base-300">
             <div class="flex gap-5 m-3">
@@ -102,7 +102,9 @@ const DraggableView = () => {
     return (
         <DragDropProvider onDragEnd={onDragEnd}>
             <DragDropSensors>
-              {placesList.map(placeName => <DraggableMain fieldId={placeName}/>)}
+              <div class="grow">
+                {placesList.map(placeName => <DraggableMain fieldId={placeName}/>)}
+              </div>
             <DraggableBottom />
             </DragDropSensors>
         </DragDropProvider>
