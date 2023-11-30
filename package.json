@@ -21,6 +21,7 @@
   },
   "dependencies": {
     "@thisbeyond/solid-dnd": "^0.7.5",
-    "solid-js": "^1.7.6"
+    "solid-js": "^1.7.6",
+    "tailwindcss-safe-area": "^0.4.1"
   }
 }
