@@ -47,10 +47,10 @@ const DraggableView = () => {
         return (
         <div use:droppable class="join join-vertical rounded-2xl w-full h-full flex flex-col p-1">
           <p class="join-item font-bold text-white text-xl bg-base-300 p-3">{fieldId} <span class="text-secondary">{(availableOptions()[fieldId].length/totalCount * 100).toFixed(1)}% -- {availableOptions()[fieldId].length}/{totalCount}</span></p>
-          <div class="join-item bg-base-300 grow">
+          <div class="join-item bg-base-300">
             <div class="flex gap-5 m-3">
             {availableOptions()[fieldId].map(name => (
-              <button class="btn btn-lg btn-outline btn-primary" onClick={() => removeName(fieldId, name)}>
+              <button class="btn  btn-outline btn-primary" onClick={() => removeName(fieldId, name)}>
                 {name}
               </button>
             ))}
@@ -62,14 +62,14 @@ const DraggableView = () => {
 
 
       const DraggableBottom = () => (
-        <div class="flex gap-5 bg-base-300 p-2 rounded-2xl justify-center">
+        <div class="flex gap-2 flex-wrap bg-base-300 p-2 rounded-2xl justify-center">
         {
         totalPeople().map(name => {
         const draggable = createDraggable(name);
-        return <div use:draggable class="btn btn-lg btn-outline btn-primary">{name}</div>
+        return <div use:draggable class="btn  btn-outline btn-primary">{name}</div>
           })}
         
-        <button class="btn btn-lg btn-primary" onClick={() => copyToClipboard()}>העתקה ללוח</button>
+        <button class="btn  btn-primary" onClick={() => copyToClipboard()}>העתקה ללוח</button>
         </div>
     );
 
