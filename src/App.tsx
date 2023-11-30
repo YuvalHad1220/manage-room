@@ -1,12 +1,46 @@
 import { createSignal, type Component } from "solid-js";
 import DraggableView from "./DraggableView";
+import { addPeople, addPlaces, getPeople, getPlaces, removePerson, removePlace } from "./localStateHandler";
+
+const initialPeopleList = getPeople();
+const initialPlacesList = getPlaces();
+type tUsage = "PERSON" | "PLACE";
+
 
 const App: Component = () => {
   type display = "MAIN" | "MODIFY_PEOPLE" | "MODIFY_PLACES";
   const [currentDisplayed, setCurrentDisplayed] = createSignal<display>("MAIN");
-  const peopleList = ["יובל הדר", "אלירן שדה", "אלירן לוי"];
-  const placesList = ["מטבח", "שירותים", "אנא עארף"];
+  const [peopleList, setPeopleList] = createSignal<string[]>(initialPeopleList);
+  const [placesList, setPlaceslist] = createSignal<string[]>(initialPlacesList);
+  const [people, setPeople] = createSignal<string>("");
+  const [places, setPlaces] = createSignal<string>("");
+  
+  const onAdd = (key: tUsage) => {
+    if (key === "PERSON"){
+      const values = people().split("\n");
+      addPeople(values)
+      setPeopleList(getPeople());
+      setPeople("")
+    }
 
+    else {
+      const values = places().split("\n");
+      addPlaces(values);
+      setPlaceslist(values);
+      setPlaces("");
+    }
+  };
+
+  const onRemove = (key: tUsage, value: string) => {
+    if (key === "PERSON"){
+      removePerson(value);
+      setPeopleList(getPeople());
+    }
+    else {
+      removePlace(value);
+      setPlaceslist(getPlaces());
+    }
+  }
 
   const AddPeople = (
     <div class="grow bg-base-300 rounded-2xl flex flex-col gap-4 p-4 items-center">
@@ -14,10 +48,10 @@ const App: Component = () => {
         <p class="font-bold">פיץ תוסיף רשימה של אנשים כשכל מקום הוא שורה</p>
         <p>אל תשכח שאתה יכול לעשות גם העתק הדבק מהווצאפ</p>
         <p>ד"א הרשימה אמורה להיות מעודכנת אוטומטית כל פעם שאתה נכנס למערכת (כמו שרואים למטה) אז אל תשכח שפה זה רק להוסיף שמות חדשים. אם אתה רוצה למחוק תמחק למטה</p>
-        <textarea class="textarea w-full" rows={10}/>
+        <textarea class="textarea w-full" rows={10} onChange={e => setPeople(e.target.value)} value={people()}/>
         <div class="join flex w-full">
-          <button class="join-item btn btn-primary grow">הוספה</button>
-          <button class="join-item btn btn-outlined grow">איפוס</button>
+          <button class="join-item btn btn-primary grow" onClick={() => onAdd("PERSON")}>הוספה</button>
+          <button class="join-item btn btn-outlined grow" onClick={() => setPeople("")}>איפוס</button>
         </div>
       </div>
       <div class="overflow-y-auto w-[75%] rounded-2xl">
@@ -29,10 +63,10 @@ const App: Component = () => {
             </tr>
           </thead>
           <tbody>
-            {peopleList.map(name => (
+            {peopleList().map(name => (
               <tr>
                 <td>{name}</td>
-                <td class="w-[10%]"><button class="btn btn-error">הסר</button></td>
+                <td class="w-[10%]"><button class="btn btn-error" onClick={() => onRemove("PERSON", name)}>הסר</button></td>
               </tr>
             ))}  
           </tbody>
@@ -48,10 +82,10 @@ const App: Component = () => {
         <p class="font-bold">פיץ תוסיף רשימה של מקומות כשכל מקום הוא שורה</p>
         <p>אל תשכח שאתה יכול לעשות גם העתק הדבק מהווצאפ</p>
         <p>ד"א הרשימה אמורה להיות מעודכנת אוטומטית כל פעם שאתה נכנס למערכת (כמו שרואים למטה) אז אל תשכח שפה זה רק להוסיף שמות חדשים. אם אתה רוצה למחוק תמחק למטה</p>
-        <textarea class="textarea w-full" rows={10}/>
+        <textarea class="textarea w-full" rows={10} onInput={e => setPlaces(e.target.value)} value={places()}/>
         <div class="join flex w-full">
-          <button class="join-item btn btn-primary grow">הוספה</button>
-          <button class="join-item btn btn-outlined grow">איפוס</button>
+          <button class="join-item btn btn-primary grow" onClick={() => onAdd("PLACE")}>הוספה</button>
+          <button class="join-item btn btn-outlined grow" onClick={() => setPlaces("")}>איפוס</button>
         </div>
       </div>
       <div class="overflow-y-auto w-[75%] rounded-2xl">
@@ -63,10 +97,10 @@ const App: Component = () => {
             </tr>
           </thead>
           <tbody>
-            {placesList.map(name => (
+            {placesList().map(name => (
               <tr>
                 <td>{name}</td>
-                <td class="w-[10%]"><button class="btn btn-error">הסר</button></td>
+                <td class="w-[10%]"><button class="btn btn-error" onClick={() => onRemove("PLACE", name)}>הסר</button></td>
               </tr>
             ))}  
           </tbody>

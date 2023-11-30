@@ -1,39 +1,52 @@
 import { DragDropProvider, DragDropSensors, createDraggable, createDroppable } from "@thisbeyond/solid-dnd";
 import { createSignal } from "solid-js";
+import { addPersonToPlace, getCurrentPeopleAndPlaces, getPeople, getPlaces, removePersonFromPlace } from "./localStateHandler";
 
-const peopleList = ["יובל הדר", "אלירן שדה", "אלירן לוי"];
-const placesList = ["מטבח", "שירותים", "אנא עארף"];
 
+type tUsage = "PERSON" | "PLACE";
 
 const DraggableView = () => {
-    const initialOptions = Object.fromEntries(placesList.map(key => [key, []]));
-    console.log("rerender");
-    const [totalPeople, setTotalPeople] = createSignal<string[]>(peopleList);
-    const [availableOptions, setAvailableOptions] = createSignal<{[key: string]: string[]}>(initialOptions);
+  let peopleList = getPeople();
+  const peopleOnTheBeginning = peopleList.length;
+  const placesList = getPlaces();
+  const initialOptions = getCurrentPeopleAndPlaces();
 
-    const removeName = (key: string, name: string) => {
-        setTotalPeople(prev => [...prev, name]);
-    
-        setAvailableOptions(prev => {
-            // Create a new object to avoid mutating the state directly
-            const updatedOptions = { ...prev };
-    
-            // Check if the specified key exists
-            if (updatedOptions.hasOwnProperty(key)) {
-                // Filter out the specified name from the specified key
-                updatedOptions[key] = updatedOptions[key].filter(prevName => prevName !== name);
-            }
-    
-            return updatedOptions;
-        });
-    };
+  peopleList = peopleList.filter(person => {
+    // Filter out people present in the initialOptions
+    return !Object.values(initialOptions).flat().includes(person);
+  });
+
+
+  const [totalPeople, setTotalPeople] = createSignal<string[]>(peopleList);
+  const [availableOptions, setAvailableOptions] = createSignal<{[key: string]: string[]}>(initialOptions);
+
+
+  const removeName = (key: string, name: string) => {
+      setTotalPeople(prev => [...prev, name]);
+  
+      setAvailableOptions(prev => {
+          // Create a new object to avoid mutating the state directly
+          const updatedOptions = { ...prev };
+  
+          // Check if the specified key exists
+          if (updatedOptions.hasOwnProperty(key)) {
+              // Filter out the specified name from the specified key
+              updatedOptions[key] = updatedOptions[key].filter(prevName => prevName !== name);
+          }
+  
+          return updatedOptions;
+      });
+
+      removePersonFromPlace(name, key);
+  };
 
 
     const DraggableMain = ({fieldId} : {fieldId: string}) => {
         const droppable = createDroppable(fieldId);
+        const totalCount = peopleOnTheBeginning;
         return (
         <div use:droppable class="join join-vertical rounded-2xl w-full h-full flex flex-col p-1">
-          <p class="join-item font-bold text-white bg-base-300 p-3">{fieldId}</p>
+          <p class="join-item font-bold text-white bg-base-300 p-3">{fieldId} <span class="text-secondary">{(availableOptions()[fieldId].length/totalCount * 100).toFixed(1)}% -- {availableOptions()[fieldId].length}/{totalCount}</span></p>
           <div class="join-item bg-base-300 grow">
             <div class="flex gap-5 m-3">
             {availableOptions()[fieldId].map(name => (
@@ -78,13 +91,14 @@ const DraggableView = () => {
             
                 return updatedNames;
             });
-            setTotalPeople(prev => prev.filter(name => name !== draggable.id))
+            addPersonToPlace(draggable.id, droppable.id);
+            setTotalPeople(prev => prev.filter(name => name !== draggable.id));
         }
     }
     return (
         <DragDropProvider onDragEnd={onDragEnd}>
             <DragDropSensors>
-            {placesList.map(placeName => <DraggableMain fieldId={placeName}/>)}
+              {placesList.map(placeName => <DraggableMain fieldId={placeName}/>)}
             <DraggableBottom />
             </DragDropSensors>
         </DragDropProvider>
