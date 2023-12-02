@@ -75,7 +75,7 @@ const App: Component = () => {
 
 
   const AddPlaces = (
-    <div class="grow bg-base-300 rounded-2xl flex flex-col gap-2 p-2 items-center overflow-y-auto">
+    <div class="grow bg-base-300 rounded-2xl flex flex-col gap-2 p-2 items-center overflow-y-scroll">
       <div class="flex flex-col items-center gap-3 mt-6 text-center text-lg w-[90%]">
         <p class="font-bold">הוספת מקומות</p>
         <p>אל תשכח שאתה יכול לעשות גם העתק הדבק מהווצאפ</p>
@@ -108,7 +108,7 @@ const App: Component = () => {
 
 
   return (
-    <div class="h-[70%] flex flex-col gap-3 p-3 overflow-hidden">
+    <div class="h-[70%] flex flex-col gap-3 p-3 overflow-y-scroll">
         {currentDisplayed() === "MAIN" && <DraggableView />}
         {currentDisplayed() === "MODIFY_PEOPLE" && AddPeople}
         {currentDisplayed() === "MODIFY_PLACES" && AddPlaces}

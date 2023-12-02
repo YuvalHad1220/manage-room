@@ -102,7 +102,7 @@ const DraggableView = () => {
     return (
         <DragDropProvider onDragEnd={onDragEnd}>
             <DragDropSensors>
-              <div class="grow">
+              <div class="grow overflow-y-hidden">
                 {placesList.map(placeName => <DraggableMain fieldId={placeName}/>)}
               </div>
             <DraggableBottom />
