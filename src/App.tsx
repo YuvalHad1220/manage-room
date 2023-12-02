@@ -108,7 +108,7 @@ const App: Component = () => {
 
 
   return (
-    <div class="flex flex-col gap-3 p-3 overflow-hidden">
+    <div class="h-[70%] flex flex-col gap-3 p-3 overflow-hidden">
         {currentDisplayed() === "MAIN" && <DraggableView />}
         {currentDisplayed() === "MODIFY_PEOPLE" && AddPeople}
         {currentDisplayed() === "MODIFY_PLACES" && AddPlaces}
