@@ -24,6 +24,23 @@ export const removePerson = (personName: string) => {
     }
 };
 
+export const removeAllPeople = () => {
+    localStorage.setItem(localStorageKey + "_people", JSON.stringify([]));
+    const currentPlaceAndPeople = getCurrentPeopleAndPlaces();
+    for (const place in currentPlaceAndPeople) {
+        currentPlaceAndPeople[place] = [];
+        localStorage.setItem(localStorageKey + "_" + place, JSON.stringify([]));
+    };
+}
+
+export const removeAllPlaces = () => {
+    localStorage.setItem(localStorageKey + "_places", JSON.stringify([]));
+    const currentPlaceAndPeople = getCurrentPeopleAndPlaces();
+    for (const place in currentPlaceAndPeople) {
+        localStorage.removeItem(localStorageKey + "_" + place);
+    }
+}
+
 export const addPlaces = (placeNames: string[]) => {
     placeNames.forEach(place => {
         localStorage.setItem(localStorageKey + "_" + place, JSON.stringify([]));
@@ -65,7 +82,17 @@ export const getCurrentPeopleAndPlaces = () => {
 
     return result;
 };
+export const resetPeopleAndPlaces = () => {
+    const places = getPlaces();
+    const result: { [key: string]: string[] } = {};
 
+    places.forEach(place => {
+        localStorage.setItem(localStorageKey + "_" + place, "[]");
+        result[place] = [];
+    });
+
+    return result;
+};
 export const addPersonToPlace = (person: string, place: string) => {
     const currentPeopleForPlace = JSON.parse(localStorage.getItem(localStorageKey + "_" + place) || "[]");
     const updatedPeopleForPlace = [...currentPeopleForPlace, person];

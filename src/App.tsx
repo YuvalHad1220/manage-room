@@ -1,6 +1,6 @@
 import { createSignal, type Component } from "solid-js";
 import DraggableView from "./DraggableView";
-import { addPeople, addPlaces, getPeople, getPlaces, removePerson, removePlace } from "./localStateHandler";
+import { addPeople, addPlaces, getPeople, getPlaces, removeAllPeople, removeAllPlaces, removePerson, removePlace } from "./localStateHandler";
 
 const initialPeopleList = getPeople();
 const initialPlacesList = getPlaces();
@@ -13,6 +13,17 @@ const App: Component = () => {
   const [placesList, setPlaceslist] = createSignal<string[]>(initialPlacesList);
   const [people, setPeople] = createSignal<string>("");
   const [places, setPlaces] = createSignal<string>("");
+
+  const reset = (key: tUsage) => {
+    if (key === "PERSON") {
+      setPeopleList([]);
+      removeAllPeople();
+    }
+    else {
+      setPlaceslist([]);
+      removeAllPlaces();
+    }
+  }
   
   const onAdd = (key: tUsage) => {
     if (key === "PERSON"){
@@ -50,6 +61,7 @@ const App: Component = () => {
         <div class="join flex w-full">
           <button class="join-item btn btn-primary grow" onClick={() => onAdd("PERSON")}>הוספה</button>
           <button class="join-item btn btn-outlined grow" onClick={() => setPeople("")}>איפוס</button>
+          <button class="join-item btn btn-outlined grow" onClick={() => reset("PERSON")}>הסרת כל השמות בטבלה</button>
         </div>
       </div>
       <div class="overflow-y-scroll w-[90%] rounded-2xl">
@@ -83,6 +95,7 @@ const App: Component = () => {
         <div class="join flex w-full">
           <button class="join-item btn btn-primary grow" onClick={() => onAdd("PLACE")}>הוספה</button>
           <button class="join-item btn btn-outlined grow" onClick={() => setPlaces("")}>איפוס</button>
+          <button class="join-item btn btn-outlined grow" onClick={() => reset("PLACE")}>הסרת כל השמות בטבלה</button>
         </div>
       </div>
       <div class="w-[90%] rounded-2xl">

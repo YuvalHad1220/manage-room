@@ -1,6 +1,6 @@
 import { DragDropProvider, DragDropSensors, createDraggable, createDroppable } from "@thisbeyond/solid-dnd";
 import { createSignal } from "solid-js";
-import { addPersonToPlace, getCurrentPeopleAndPlaces, getPeople, getPlaces, removePersonFromPlace } from "./localStateHandler";
+import { addPersonToPlace, getCurrentPeopleAndPlaces, getPeople, getPlaces, removePersonFromPlace, resetPeopleAndPlaces } from "./localStateHandler";
 
 
 type tUsage = "PERSON" | "PLACE";
@@ -40,6 +40,10 @@ const DraggableView = () => {
       removePersonFromPlace(name, key);
   };
 
+  const reset = () => {
+    setAvailableOptions(resetPeopleAndPlaces());
+    setTotalPeople(getPeople());
+  }
 
     const DraggableMain = ({fieldId} : {fieldId: string}) => {
         const droppable = createDroppable(fieldId);
@@ -70,6 +74,7 @@ const DraggableView = () => {
           })}
         
         <button class="btn  btn-primary" onClick={() => copyToClipboard()}>העתקה ללוח</button>
+        <button class="btn  btn-primary" onClick={() => reset()}>איפוס לוח</button>
         </div>
     );
 
