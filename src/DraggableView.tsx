@@ -102,10 +102,10 @@ const DraggableView = () => {
     return (
         <DragDropProvider onDragEnd={onDragEnd}>
             <DragDropSensors>
-              <div class="grow touch-none">
+              <div class="touch-none flex flex-col gap-1">
                 {placesList.map(placeName => <DraggableMain fieldId={placeName}/>)}
+                <DraggableBottom />
               </div>
-            <DraggableBottom />
             </DragDropSensors>
         </DragDropProvider>
     )
