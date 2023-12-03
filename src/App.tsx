@@ -59,9 +59,9 @@ const App: Component = () => {
         <p>אל תשכח שאתה יכול לעשות גם העתק הדבק מהווצאפ</p>
         <textarea class="textarea w-full" rows={7} onChange={e => setPeople(e.target.value)} value={people()}/>
         <div class="join flex w-full">
-          <button class="join-item btn btn-primary grow" onClick={() => onAdd("PERSON")}>הוספה</button>
-          <button class="join-item btn btn-outlined grow" onClick={() => setPeople("")}>איפוס</button>
-          <button class="join-item btn btn-outlined grow" onClick={() => reset("PERSON")}>הסרת כל השמות בטבלה</button>
+          <button class="join-item btn btn-xs btn-primary grow" onClick={() => onAdd("PERSON")}>הוספה</button>
+          <button class="join-item btn btn-xs btn-outlined grow" onClick={() => setPeople("")}>איפוס</button>
+          <button class="join-item btn btn-xs btn-outlined grow" onClick={() => reset("PERSON")}>הסרת כל השמות בטבלה</button>
         </div>
       </div>
       <div class="overflow-y-scroll w-[90%] rounded-2xl">

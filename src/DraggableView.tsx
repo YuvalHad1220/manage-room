@@ -2,9 +2,6 @@ import { DragDropProvider, DragDropSensors, createDraggable, createDroppable } f
 import { createSignal } from "solid-js";
 import { addPersonToPlace, getCurrentPeopleAndPlaces, getPeople, getPlaces, removePersonFromPlace, resetPeopleAndPlaces } from "./localStateHandler";
 
-
-type tUsage = "PERSON" | "PLACE";
-
 const DraggableView = () => {
   let peopleList = getPeople();
   const peopleOnTheBeginning = peopleList.length;
@@ -16,10 +13,8 @@ const DraggableView = () => {
     return !Object.values(initialOptions).flat().includes(person);
   });
 
-
   const [totalPeople, setTotalPeople] = createSignal<string[]>(peopleList);
   const [availableOptions, setAvailableOptions] = createSignal<{[key: string]: string[]}>(initialOptions);
-
 
   const removeName = (key: string, name: string) => {
       setTotalPeople(prev => [...prev, name]);
@@ -49,12 +44,12 @@ const DraggableView = () => {
         const droppable = createDroppable(fieldId);
         const totalCount = peopleOnTheBeginning;
         return (
-        <div use:droppable class="join join-vertical rounded-2xl flex flex-col p-1">
+        <div use:droppable class="touch-none join join-vertical rounded-2xl flex flex-col p-1">
           <p class="join-item font-bold text-white text-xl bg-base-300 p-3">{fieldId} <span class="text-secondary">{(availableOptions()[fieldId].length/totalCount * 100).toFixed(1)}% -- {availableOptions()[fieldId].length}/{totalCount}</span></p>
           <div class="join-item bg-base-300">
             <div class="flex gap-5 m-3">
             {availableOptions()[fieldId].map(name => (
-              <button class="btn  btn-outline btn-primary" onClick={() => removeName(fieldId, name)}>
+              <button class="btn btn-xs btn-outline btn-primary" onClick={() => removeName(fieldId, name)}>
                 {name}
               </button>
             ))}
@@ -66,15 +61,15 @@ const DraggableView = () => {
 
 
       const DraggableBottom = () => (
-        <div class="flex gap-2 flex-wrap bg-base-300 p-2 rounded-2xl justify-center">
+        <div class="touch-none flex gap-1 flex-wrap bg-base-300 p-1 rounded-2xl justify-center">
         {
         totalPeople().map(name => {
         const draggable = createDraggable(name);
-        return <div use:draggable class="btn  btn-outline btn-primary">{name}</div>
+        return <div use:draggable class="btn btn-xs btn-outline btn-primary">{name}</div>
           })}
         
-        <button class="btn  btn-primary" onClick={() => copyToClipboard()}>העתקה ללוח</button>
-        <button class="btn  btn-primary" onClick={() => reset()}>איפוס לוח</button>
+        <button class="btn btn-xs btn-primary" onClick={() => copyToClipboard()}>העתקה ללוח</button>
+        <button class="btn btn-xs btn-primary" onClick={() => reset()}>איפוס לוח</button>
         </div>
     );
 
@@ -107,7 +102,7 @@ const DraggableView = () => {
     return (
         <DragDropProvider onDragEnd={onDragEnd}>
             <DragDropSensors>
-              <div class="touch-none flex flex-col gap-1">
+              <div class="flex flex-col gap-3">
                 {placesList.map(placeName => <DraggableMain fieldId={placeName}/>)}
                 <DraggableBottom />
               </div>
