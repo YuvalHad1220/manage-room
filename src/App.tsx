@@ -27,14 +27,14 @@ const App: Component = () => {
   
   const onAdd = (key: tUsage) => {
     if (key === "PERSON"){
-      const values = people().split("\n");
+      const values = people().split("\n").map(value => value.trim());
       addPeople(values)
       setPeopleList(getPeople());
       setPeople("")
     }
 
     else {
-      const values = places().split("\n");
+      const values = places().split("\n").map(value => value.trim());
       addPlaces(values);
       setPlaceslist(getPlaces());
       setPlaces("");
