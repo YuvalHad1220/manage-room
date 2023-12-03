@@ -54,7 +54,7 @@ const App: Component = () => {
 
   const AddPeople = (
     <div class="grow bg-base-300 rounded-2xl flex flex-col gap-2 p-2 items-center">
-      <div class="flex flex-col items-center gap-3 mt-6 text-center text-lg w-[90%]">
+      <div class="flex flex-col items-center gap-3 mt-6 text-center text-xs w-[90%]">
         <p class="font-bold">פיץ תוסיף רשימה של אנשים כשכל מקום הוא שורה</p>
         <p>אל תשכח שאתה יכול לעשות גם העתק הדבק מהווצאפ</p>
         <textarea class="textarea w-full" rows={7} onChange={e => setPeople(e.target.value)} value={people()}/>
@@ -68,14 +68,14 @@ const App: Component = () => {
         <table class="table table-pin-rows w-full">
           <thead>
             <tr>
-              <th class="font-bold text-lg text-white">שם כוח אדם</th>
+              <th class="font-bold text-xs text-white">שם כוח אדם</th>
               <th></th>
             </tr>
           </thead>
           <tbody>
             {peopleList().map(name => (
               <tr>
-                <td class="text-lg">{name}</td>
+                <td class="text-xs">{name}</td>
                 <td class="w-[10%]"><button class="btn  btn-error" onClick={() => onRemove("PERSON", name)}>הסר</button></td>
               </tr>
             ))}  
@@ -88,7 +88,7 @@ const App: Component = () => {
 
   const AddPlaces = (
     <div class="grow bg-base-300 rounded-2xl flex flex-col gap-2 p-2 items-center">
-      <div class="flex flex-col items-center gap-3 mt-6 text-center text-lg w-[90%]">
+      <div class="flex flex-col items-center gap-3 mt-6 text-center text-xs w-[90%]">
         <p class="font-bold">הוספת מקומות</p>
         <p>אל תשכח שאתה יכול לעשות גם העתק הדבק מהווצאפ</p>
         <textarea class="textarea w-full" rows={7} onInput={e => setPlaces(e.target.value)} value={places()}/>
@@ -102,14 +102,14 @@ const App: Component = () => {
         <table class="table  table-pin-rows w-full">
           <thead>
             <tr>
-              <th class="font-bold text-lg text-white">שם מקום</th>
+              <th class="font-bold text-xs text-white">שם מקום</th>
               <th></th>
             </tr>
           </thead>
           <tbody>
             {placesList().map(name => (
               <tr>
-                <td class="text-lg">{name}</td>
+                <td class="text-xs">{name}</td>
                 <td class="w-[10%]"><button class="btn btn-error" onClick={() => onRemove("PLACE", name)}>הסר</button></td>
               </tr>
             ))}  
